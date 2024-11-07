@@ -1,4 +1,16 @@
-from aiogram.dispatcher.filters.state import State,StatesGroup
+from aiogram.dispatcher.filters.state import State, StatesGroup
+
 
 class DriverState(StatesGroup):
-    pass
+    phone = State()
+    model = State()
+    confirm = State()
+
+
+class DriverOrderState(StatesGroup):
+    from_place = State()
+    to_place = State()
+    price = State()
+    number = State()
+    date = State()
+    confirm = State()

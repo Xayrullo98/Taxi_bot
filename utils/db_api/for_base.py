@@ -2,8 +2,8 @@ import sqlite3
 
 
 class Database:
-    def __init__(self, baza_manzili):
-        self.path_to_db = baza_manzili
+    def __init__(self, path):
+        self.path_to_db = path
 
     @property
     def connection(self):
@@ -92,7 +92,7 @@ class Database:
         sql = """
         INSERT INTO users(fullname,tg_id,tel,username,status,created_at) VALUES(?, ?, ?, ?, ?, ?)
         """
-        self.execute(sql, parameters=(fullname, tg_id, tel, created_at, username, status), commit=True)
+        self.execute(sql, parameters=(fullname, tg_id, tel, username, status, created_at), commit=True)
 
     def select_all_user(self):
         sql = """
@@ -101,7 +101,7 @@ class Database:
         return self.execute(sql, fetchall=True)
 
     def delete_user(self, **kwargs):
-        sql = "DELETE * FROM users WHERE "
+        sql = "DELETE FROM users WHERE "
         sql, parameters = self.format_args(sql, kwargs)
 
         return self.execute(sql, parameters=parameters, commit=True)
@@ -113,56 +113,74 @@ class Database:
         return self.execute(sql, parameters=parameters, fetchone=True)
 
     # Customer order section
-    def add_customer_order(self, from_place: str, to_place: str, number: str, tg_id: str, date: str, status: bool, created_at: str,
-                        price: float=0):
-            sql = """
+    def add_customer_order(self, from_place: str, to_place: str, number: str, tg_id: str, date: str, status: bool,
+                           created_at: str,
+                           price: float = 0):
+        sql = """
             INSERT INTO Customer_orders(from_place, to_place, number, date, tg_id, status, created_at, price) VALUES(?, ?, ?, ?, ?, ?, ?, ?)
             """
-            self.execute(sql, parameters=(from_place, to_place, number, date, tg_id, status, created_at, price), commit=True)
+        self.execute(sql, parameters=(from_place, to_place, number, date, tg_id, status, created_at, price),
+                     commit=True)
 
     def select_all_customer_orders(self):
-            sql = """
+        sql = """
                 SELECT * FROM Customer_orders
                 """
-            return self.execute(sql, fetchall=True)
+        return self.execute(sql, fetchall=True)
 
     def delete_customer_orders(self, **kwargs):
-            sql = "DELETE  FROM Customer_orders WHERE "
-            sql, parameters = self.format_args(sql, kwargs)
+        sql = "DELETE  FROM Customer_orders WHERE "
+        sql, parameters = self.format_args(sql, kwargs)
 
-            return self.execute(sql, parameters=parameters, commit=True)
+        return self.execute(sql, parameters=parameters, commit=True)
 
     def select_customer_orders(self, **kwargs):
-            sql = "SELECT * FROM Customer_orders WHERE "
-            sql, parameters = self.format_args(sql, kwargs)
+        sql = "SELECT * FROM Customer_orders WHERE "
+        sql, parameters = self.format_args(sql, kwargs)
 
-            return self.execute(sql, parameters=parameters, fetchone=True)
+        return self.execute(sql, parameters=parameters, fetchall=True)
 
     # Driver orders section
-    def add_driver_order(self, from_place: str, to_place: str, number: str, tg_id: str, date: str, status: bool, created_at: str,
-                        price: float=0):
-            sql = """
+    def add_driver_order(self, from_place: str, to_place: str, number: str, tg_id: str, date: str, status: bool,
+                         created_at: str,
+                         price: float = 0):
+        sql = """
             INSERT INTO Driver_orders(from_place, to_place, number, date, tg_id, status, created_at, price) VALUES(?, ?, ?, ?, ?, ?, ?, ?)
             """
-            self.execute(sql, parameters=(from_place, to_place, number, date, tg_id, status, created_at, price), commit=True)
+        self.execute(sql, parameters=(from_place, to_place, number, date, tg_id, status, created_at, price),
+                     commit=True)
 
     def select_all_driver_order(self):
-            sql = """
+        sql = """
                 SELECT * FROM Driver_orders
                 """
-            return self.execute(sql, fetchall=True)
+        return self.execute(sql, fetchall=True)
 
     def delete_driver_order(self, **kwargs):
-            sql = "DELETE  FROM Driver_orders WHERE "
-            sql, parameters = self.format_args(sql, kwargs)
+        sql = "DELETE  FROM Driver_orders WHERE "
+        sql, parameters = self.format_args(sql, kwargs)
 
-            return self.execute(sql, parameters=parameters, commit=True)
+        return self.execute(sql, parameters=parameters, commit=True)
 
     def select_driver_order(self, **kwargs):
-            sql = "SELECT * FROM Driver_orders WHERE "
-            sql, parameters = self.format_args(sql, kwargs)
+        sql = "SELECT * FROM Driver_orders WHERE "
+        sql, parameters = self.format_args(sql, kwargs)
 
-            return self.execute(sql, parameters=parameters, fetchone=True)
+        return self.execute(sql, parameters=parameters, fetchall=True)
+
+    # models section
+    def select_all_models(self):
+        sql = """
+               SELECT * FROM models
+               """
+        return self.execute(sql, fetchall=True)
+
+    # regions section
+    def select_all_regions(self):
+        sql = """
+                  SELECT * FROM regions
+                  """
+        return self.execute(sql, fetchall=True)
     # def update_deadline(self, deadline, id):
     #     # SQL_EXAMPLE = "UPDATE myfiles_menu SET email=mail@gmail.com WHERE id=12345"
     #
